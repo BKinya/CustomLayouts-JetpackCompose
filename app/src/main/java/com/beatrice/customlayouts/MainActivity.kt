@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     setContent {
       CustomLayoutsJetpackComposeTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface( color = MaterialTheme.colors.background) {
           HomeScreen()
         }
       }

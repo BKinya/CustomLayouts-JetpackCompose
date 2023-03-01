@@ -9,29 +9,28 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomColumn(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-  Layout(content = content, modifier = modifier) { measurables, constraints ->
-    // MEASUREMENT SCOPE
-    // Measurement scope
+  Layout(
+    modifier = modifier,
+    content = content
+  ) { measurables, constraints ->
     var initialWidth = constraints.minWidth
 
-    // Determine the size of it's components
-    val placeable = measurables.map {
+    val placeables = measurables.map { measurable ->
+      // Measure each children
       initialWidth += 84
-      it.measure(
-        constraints.copy(
-          minWidth =  constraints.minWidth,
-        )
-      )
+      measurable.measure(constraints.copy(minWidth = initialWidth))
     }
 
+    // Set the size of the layout as big as it can
     layout(constraints.maxWidth, constraints.maxHeight) {
-      // PLACEMENT SCOPE
-      // Placement step
-      // Determine the position of it's components
       var yPosition = 0
-      placeable.forEach {
-        it.placeRelative(0, yPosition)
-        yPosition += it.height + 7
+
+      // Place children in the parent layout
+      placeables.forEach { placeable ->
+        placeable.placeRelative(x = 0, y = yPosition)
+
+        // Record the y co-ord placed up to
+        yPosition += placeable.height+17
       }
     }
   }
